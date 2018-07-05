@@ -3,22 +3,6 @@
 # Bash script that creates and sets up a laravel project on Windows.
 # Written by John Eastman
 
-# Pre-requisites
-# 	1. Git			https://git-scm.com/
-# 	2. xampp		https://www.apachefriends.org/index.html
-# 	3. composer		https://getcomposer.org/
-
-# Parameters:
-# 	$1		Project Name
-
-# NOTES:
-#	1. Must run Git Bash as administrator to work.
-#	2. In this script's current state, two assumptions are made:
-# 		a. Assumes that this file is in xampp\htdocs
-#		b. Assumes that these files and directories are on the C drive
-#	3. Avoid project names with underscores
-
-
 # Check if the user provides a project name.
 if [ $# -eq 0 ];
 then
