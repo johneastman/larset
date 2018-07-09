@@ -22,9 +22,20 @@ else
 fi
 
 
+# ----------------------------------------------------
 # Add project to virtual host file: httpd-vhosts.conf 
-# NOTE: httpd-vhosts.conf at xampp\apache\conf\extra
-vhost="\n\n<VirtualHost *:80>\n	DocumentRoot 'C:/Coding/xampp/htdocs/$1/public'\n	ServerName $1.test\n</VirtualHost>"
+# NOTE: httpd-vhosts.conf at xampp\apache\conf\extra  
+# ----------------------------------------------------
+
+# Replaces the current working directory (in POSIX form) to Windows Path form
+# Example:
+#    POSIX:     /D/Coding/Projects/Shell
+#    Windows:   D:/Coding/Projects/Shell/hello/public
+# Source: https://stackoverflow.com/questions/13701218/windows-path-to-posix-path-conversion-in-bash
+# NOTE: $PWD will be 'xampp\apache\conf\extra'
+cwd="$PWD/$1/public"
+windowsPath=`echo "$cwd" | sed -e 's/^\///' -e 's/^./\0:/'`
+vhost="\n\n<VirtualHost *:80>\n\tDocumentRoot '$windowsPath'\n\tServerName $1.test\n</VirtualHost>"
 cd ../apache/conf/extra
 echo -e $vhost >> httpd-vhosts.conf
 
