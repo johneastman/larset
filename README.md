@@ -1,5 +1,5 @@
 # larset
-A bash script that creates and sets up a laravel project on Windows.
+A bash script that creates and sets up a laravel project on Windows. I wrote this script while I was working on a Udemy course on Laravel. 
 
 ### Pre-requisites
   1. [Git](https://git-scm.com/)
