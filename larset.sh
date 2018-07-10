@@ -15,7 +15,7 @@ fi
 # Create the project if it doesn't exist
 if [ ! -d "$1" ];
 then
-	composer create-project --prefer-dist laravel/laravel $1 5.2.29
+	composer create-project --prefer-dist laravel/laravel $1 # Version goes here. No version gets most recent version (e.g., 5.2.29)
 else
 	echo "Project '$1' already exists"
 	exit 1
