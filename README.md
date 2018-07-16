@@ -6,10 +6,12 @@ A bash script that creates and sets up a laravel project on Windows. I wrote thi
   2. [xampp](https://www.apachefriends.org/index.html)
   3. [composer](https://getcomposer.org/)
 
-### Parameters
-  | Parameter | Purpose      |
-  |:----------|:-------------|
-  |$1         | Project Name |
+### Commands
+| Operation                          | Command                                                  |
+|:-----------------------------------|:---------------------------------------------------------|
+| Create a new laravel project       | ./larset.sh create [project name]                        |
+| Delete an existing laravel project | ./larset.sh create [project name]                        |
+| Rename an existing laravel project | ./larset.sh rename [old project name] [new project name] |
 
 ### Notes
   1. Must run Git Bash as administrator.
