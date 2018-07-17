@@ -23,9 +23,14 @@ function dirExists() {
 
 
 cwd="$PWD/$2/public"
-windowsPath=`echo "$cwd" | sed -e 's/^\///' -e 's/^./\u&:/'`
-vhost="<VirtualHost *:80>\n\tDocumentRoot '$windowsPath'\n\tServerName $2.test\n</VirtualHost>"
+
+# Replace '0' with 'u&' to capitalize drive letter
+windowsPath=$(echo "$cwd" | sed -e 's/^\///' -e 's/\//\\/g' -e 's/^./\0:/')
+vhost="<VirtualHost *:80>\n    DocumentRoot '$windowsPath'\n    ServerName $2.test\n</VirtualHost>"
 domain="127.0.0.1 $2.test" # Windows domain
+
+# Set up python script for execution
+chmod +x $PWD/file_manip.py
 
 
 # Check if the user provides a project name.
@@ -75,13 +80,18 @@ then
 	then
 		echo "Deleting '$2' ..."
 		
-		# rm -r $2
-			
-		cd ../apache/conf/extra
-		sed -i -e "s/$vhost//" httpd-vhosts.conf
+		# Delete directory
+		rm -r $2
 		
-		cd /C/Windows/System32/drivers/etc
-		sed -i -e "s/$domain.*//" hosts 
+		pycwd=$PWD # Capture this directory for python script
+		
+		# Remove virtual host from httpd-vhosts.conf
+		cd ../apache/conf/extra
+		python $pycwd/file_manip.py $2 $windowsPath  # Planned feature: pass $vhost in here. 
+		
+		# Remove domain from hosts
+		cd /c/Windows/System32/drivers/etc
+		sed -i -e "s/$domain.*//" hosts
 
 		exit 0
 	else
