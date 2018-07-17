@@ -25,8 +25,8 @@ function dirExists() {
 cwd="$PWD/$2/public"
 
 # Replace '0' with 'u&' to capitalize drive letter
-windowsPath=$(echo "$cwd" | sed -e 's/^\///' -e 's/\//\\/g' -e 's/^./\0:/')
-vhost="<VirtualHost *:80>\n    DocumentRoot '$windowsPath'\n    ServerName $2.test\n</VirtualHost>"
+windowsPath=$(echo "$cwd" | sed -e 's/^\///' -e 's/\//\\\\/g' -e 's/^./\0:/')
+vhost="<VirtualHost *:80>\n\tDocumentRoot '$windowsPath'\n\tServerName $2.test\n</VirtualHost>"
 domain="127.0.0.1 $2.test" # Windows domain
 
 # Set up python script for execution
@@ -48,7 +48,7 @@ then
 	
 		echo "Creating '$2' ..."
 	
-		# composer create-project --prefer-dist laravel/laravel $2
+		composer create-project --prefer-dist laravel/laravel $2
 		
 		# ----------------------------------------------------
 		# Add project to virtual host file: httpd-vhosts.conf 
@@ -62,12 +62,11 @@ then
 		# Source: https://stackoverflow.com/questions/13701218/windows-path-to-posix-path-conversion-in-bash
 		# NOTE: $PWD will be 'xampp\apache\conf\extra'
 		cd ../apache/conf/extra
-		echo -e "\n" >> httpd-vhosts.conf
 		echo -e $vhost >> httpd-vhosts.conf
 		
 		# Add to hosts file:
 		# NOTE: hosts at C:\Windows\System32\drivers\etc
-		cd /C/Windows/System32/drivers/etc
+		cd /c/Windows/System32/drivers/etc
 		echo $domain >> hosts
 	else
 		echo "Project '$2' already exists"
